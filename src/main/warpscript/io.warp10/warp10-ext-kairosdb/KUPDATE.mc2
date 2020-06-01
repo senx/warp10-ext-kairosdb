@@ -26,9 +26,9 @@ Care should be taken to ensure the input data pushed to KairosDB only contains t
 '>
   'ext' 'io.warp10.ext.kairosdb.KairosDBWarpScriptExtension'
   'sig' [
-    [ [ 'data:LIST' 'url:STRING' ] [] ]
-    [ [ 'gts:GTS' 'url:STRING' ] [] ]
-    [ [ 'encoder:ENCODER' 'url:STRING' ] [] ]
+    [ [ 'data:LIST' 'url:STRING' ] REVERSE [] ]
+    [ [ 'gts:GTS' 'url:STRING' ] REVERSE [] ]
+    [ [ 'encoder:ENCODER' 'url:STRING' ] REVERSE [] ]
   ]
   'params' {
     'data' 'List of Geo Time Series or GTS Encoders.'
