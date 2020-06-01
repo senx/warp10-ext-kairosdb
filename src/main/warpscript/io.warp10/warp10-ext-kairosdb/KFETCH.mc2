@@ -1,0 +1,87 @@
+//
+//   Copyright 2020  SenX S.A.S.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+
+{
+  'name' 'KFETCH'
+  'desc'
+<'
+The `KFETCH` function fetches time series data from a [KairosDB](http://kairosdb.github.io/) instance and converts them to Geo Time Series which can further be manipulated in WarpScript.
+
+The function expects a parameter map as input. The map can contain the following entries:
+
+| Key | Description |
+|-----|-------------|
+| `url` | The URL of the KairosDB endpoint. |
+| `end` | The end timestamp (a `LONG`) of the range to consider. Defaults to the current time. Must be expressed in Warp 10 time units. |
+| `start` | The starting timestamp of the range to consider, expressed in Warp 10 time units. |
+| `metrics` | This is a `MAP` mapping metric names to a list of `MAP`s containing selection criteria on tags. This allows to retrieve series matching multiple criteria in a single call to `KFETCH`. See below for an example. |
+| `limit` | The number of results to fetch. |
+| `order` | The order in which results should be considered, either `asc` or `desc`, defaults to `asc`. |
+| `groupby` | List of tag names used for grouping. |
+| `aggregators` | List of aggregators to use. Each aggregator is a `MAP` defining its parameters, see below. |
+
+## `metrics`
+
+The `metrics` entry of the parameter `MAP` has the following format:
+
+```
+{
+  'metric1' [
+    {
+      'tag1' 'value1'
+      'tag2' 'value2'
+    }
+    {
+      'tag1' 'value2'
+    }
+  ]
+  'metric2' [
+    {
+      'tag' 'value'
+    }
+  ]
+}
+```
+
+The returned Geo Time Series will have their labels set to the tags of the series in KairosDB. If selection criteria lead to multiple series being matched and no `groupby` has been specified for some tags, seome fetched series may have multiple values for a given tag. In that case, the resulting Geo Time Series will have labels set to the list of tag values separated by commas and an attribute with the same name as the label will be set to value `multi` to indicate multiple values of tags were found.
+
+If a tag name appears in the `groupby` list, one GTS for each set of resulting tag values will be created.
+
+## `aggregators`
+
+The definition of an aggregator is a `MAP` containing at least a `name` entry with the name of the aggregator as known to KairosDB. If an aggregator has some extra parameters, they should appear in the `MAP`. Those parameters will then be passed to the KairosDB backend jointly with the name of the aggregator.
+
+The aggregators are applied in the order they are defined.
+'>
+  'ext' 'io.warp10.ext.kairosdb.KairosDBWarpScriptExtension'
+  'sig' [
+    [ [ 'params:MAP' ] [ 'gts:LIST' ] ]
+  ]
+  'params' {
+    'params' 'Parameter map, see function description for details.'
+    'gts' 'List of retrieved Geo Time Series.'
+  }
+  'related' [ 'KUPDATE' ]
+  'tags' [ 'ext' ]
+  'conf' [ 'kairosdb.validator' ]
+}
+'.info' STORE
+<%
+  !$.info INFO
+  'KFETCH' EVAL
+%>
+'macro' STORE
+$macro

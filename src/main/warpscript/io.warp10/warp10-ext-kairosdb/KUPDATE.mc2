@@ -1,0 +1,49 @@
+//
+//   Copyright 2020  SenX S.A.S.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+
+{
+  'name' 'KUPDATE'
+  'desc'
+<'
+The `KUPDATE` function pushes data to a [KairosDB](http://kairosdb.github.io/) instance for storage.
+
+Care should be taken to ensure the input data pushed to KairosDB only contains the following value types: `LONG`, `DOUBLE` or `STRING`.
+
+`BOOLEAN` values are not supported by KairosDB at this point.
+'>
+  'ext' 'io.warp10.ext.kairosdb.KairosDBWarpScriptExtension'
+  'sig' [
+    [ [ 'data:LIST' 'url:STRING' ] [] ]
+    [ [ 'gts:GTS' 'url:STRING' ] [] ]
+    [ [ 'encoder:ENCODER' 'url:STRING' ] [] ]
+  ]
+  'params' {
+    'data' 'List of Geo Time Series or GTS Encoders.'
+    'gts' 'Geo Time Series.'
+    'encoder' 'GTS Encoder.'
+    'url' 'URL of the KairosDB endpoint.'
+  }
+  'related' [ 'KFETCH' ]
+  'tags' [ 'ext' ]
+  'conf' [ 'kairosdb.validator' ]
+}
+'.info' STORE
+<%
+  !$.info INFO
+  'KUPDATE' EVAL
+%>
+'macro' STORE
+$macro
