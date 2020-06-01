@@ -23,3 +23,11 @@ Make sure you copied the `.jar` file of the extension in the `lib` directory of 
 ## Using the extension
 
 Please refer to the documentation of the `KFETCH` and `KUPDATE` functions.
+
+## Adding analytics capabilities to KairosDB
+
+If you simply want to use WarpScript on data residing in KairosDB without having Warp 10 manage any data on its own you can launch your Warp 10 instance with the following additional configuration on top of the `warpscript.extension.kairosdb` key.
+
+```
+analytics.engine.only = true
+```
