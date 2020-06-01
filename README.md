@@ -22,4 +22,4 @@ Make sure you copied the `.jar` file of the extension in the `lib` directory of 
 
 ## Using the extension
 
-Please refer to the documentation of the [`KFETCH`](io.warp10/warp10-ext-kairosdb/KFETCH.mc2) and [`KUPDATE`](io.warp10/warp10-ext-kairosdb/KUPDATE.mc2) functions.
+Please refer to the documentation of the `KFETCH` and `KUPDATE` functions.
