@@ -212,11 +212,11 @@ public class KFETCH extends NamedWarpScriptFunction implements WarpScriptStackFu
             Set<String> groupby = new HashSet<String>(groupbyparam);
             for (Entry<Object,Object> tag: ((Map<Object,Object>) tags).entrySet()) {
               if (tag.getValue() instanceof String) {
-                qmetric.addTag(String.valueOf(entry.getKey()), (String) entry.getValue());
-                groupby.add((String) entry.getValue());
+                qmetric.addTag(String.valueOf(tag.getKey()), (String) tag.getValue());
+                groupby.add((String) tag.getValue());
               } else if (tag.getValue() instanceof List) {
-                qmetric.addTag(String.valueOf(entry.getKey()), ((List<String>) entry.getValue()).toArray(new String[0]));
-                for (String elt: (List<String>) entry.getValue()) {
+                qmetric.addTag(String.valueOf(tag.getKey()), ((List<String>) tag.getValue()).toArray(new String[0]));
+                for (String elt: (List<String>) tag.getValue()) {
                   groupby.add(elt);
                 }
               } else {
